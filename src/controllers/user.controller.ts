@@ -34,57 +34,66 @@ export const listUsers =
 
 export const getUserById = async (
     request: FastifyRequest<{ Params: { id: number } }>,
-    reply: FastifyReply) => {
-
-    Promise.resolve(staticUsers)
-        .then((users) => {
-            const userId = request.params.id;
-            const user = users.find((u) => u.id == userId);
-
-            if (!user) {
-                reply.code(404).send({ error: 'Utilisateur non trouvé' });
-            }
-
-            reply.send({ data: user })
-        })
-}
-
-export const addUser = async (
-    request: FastifyRequest<{ Body: { name: string } }>, // Assuming you're sending user data in the request body
     reply: FastifyReply
 ) => {
+    const userId = request.params.id;
+
     try {
-        const newUser: IUser = {
-            id: staticUsers.length + 1,
-            name: request.body.name,
-        };
+        const user = await db.sql<s.users.SQL, s.users.Selectable[]>`
+      SELECT * FROM ${'users'}
+      WHERE ${'user_id'} = ${db.param(userId)}
+    `.run(pool);
 
-        staticUsers.push(newUser);
-
-
-        reply.code(201).send({ data: newUser });
+        if (user.length === 0) {
+            reply.code(404).send({ error: 'User not found' });
+        } else {
+            reply.send({ data: user[0] });
+        }
     } catch (error) {
+        console.error(error);
+        reply.code(500).send({ error: 'Internal Server Error' });
+    }
+};
+
+export const addUser = async (
+    request: FastifyRequest<{ Body: Pick<s.users.Insertable, 'name' | 'score'> }>,
+    reply: FastifyReply
+) => {
+    const { name, score } = request.body;
+
+    try {
+        const newUser = await db.insert('users', {
+            name,
+            score,
+        }).run(pool);
+
+        reply.send({ data: newUser });
+    } catch (error) {
+        console.error(error);
         reply.code(500).send({ error: 'Internal Server Error' });
     }
 };
 
 export const updateUser = async (
-    request: FastifyRequest<{ Params: { id: string }; Body: { score: number } }>,
+    request: FastifyRequest<{ Params: { id: number }; Body: Partial<s.users.Updatable> }>,
     reply: FastifyReply
 ) => {
+    const userId = request.params.id;
+    const updatedData = request.body;
+
     try {
-        const userId = parseInt(request.params.id, 10);
-        const userIndex = staticUsers.findIndex((u) => u.id === userId);
+        const updatedUser = await db.update('users', updatedData, {
+            user_id: userId,
+        })
+            .run(pool);
 
-        if (userIndex === -1) {
-            reply.code(404).send({ error: 'Utilisateur non trouvé' });
-            return;
+        if (updatedUser.length === 0) {
+            reply.code(404).send({ error: 'User not found' });
+        } else {
+            reply.send({ data: updatedUser[0] });
         }
-
-        staticUsers[userIndex].score = request.body.score;
-
-        reply.send({ data: staticUsers[userIndex] });
     } catch (error) {
+        console.error(error);
         reply.code(500).send({ error: 'Internal Server Error' });
     }
 };
