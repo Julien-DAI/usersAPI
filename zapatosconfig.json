@@ -1,0 +1,14 @@
+{
+    "db": {
+        "connectionString": "postgres://ficymfck:OzNF_sZL4b6dfd-xYuflVOIzw0v7YUvV@ella.db.elephantsql.com/ficymfck"
+    },
+    "outDir": "./src",
+    "schemas": {
+        "public": {
+            "include": [
+                "users"
+            ],
+            "exclude": []
+        }
+    }
+}
