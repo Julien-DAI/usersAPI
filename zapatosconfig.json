@@ -1,6 +1,6 @@
 {
     "db": {
-        "connectionString": "postgres://ficymfck:OzNF_sZL4b6dfd-xYuflVOIzw0v7YUvV@ella.db.elephantsql.com/ficymfck"
+        "connectionString": "postgres://postgres:postgres@users/users"
     },
     "outDir": "./src",
     "schemas": {
