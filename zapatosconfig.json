@@ -5,9 +5,7 @@
     "outDir": "./src",
     "schemas": {
         "public": {
-            "include": [
-                "users"
-            ],
+            "include": "*",
             "exclude": []
         }
     }
