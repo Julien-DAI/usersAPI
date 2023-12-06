@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev ./src/index.ts",
-    "start": "node build/index.js"
+    "dev": "ts-node-dev src/services/usersAPI/index.ts",
+    "start": "node build/index.js",
+    "users": "ts-node-dev src/services/usersAPI/index.ts",
+    "matchs": "ts-node-dev src/services/matchsAPI/index.ts",
+    "rounds": "ts-node-dev src/services/roundsAPI/index.ts",
+    "creatures": "ts-node-dev src/services/creaturesAPI/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,13 +18,15 @@
   "devDependencies": {
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.2"
   },
   "dependencies": {
     "@types/pg": "^8.10.9",
+    "axios": "^1.6.2",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
+    "fluent-json-schema": "^4.2.1",
     "pg": "^8.11.3",
-    "zapatos": "^6.2.0"
+    "zapatos": "^6.3.0"
   }
 }
