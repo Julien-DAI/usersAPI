@@ -50,7 +50,7 @@ export const addUser = async (
 
         switch (role) {
             case 'player':
-                newUser = { name, role, badges:0, password } as Omit<ExtendedUser, 'id'>;
+                newUser = { name, role, badges:0, password, balance:0 } as Omit<ExtendedUser, 'id'>;
                 break;
             case 'reporter':
                 newUser = { name, role, password };
@@ -91,10 +91,26 @@ export const updateUser = async (
             RETURNING *;
         `.run(pool);
         }
+        if (updatedData.balance!=null) {
+            updatedUsers = await db.sql<s.users.SQL, s.users.Selectable[]>`
+            UPDATE ${"users"}
+            SET ${"balance"} = ${db.param(updatedData.balance)}
+            WHERE ${"id"} = ${db.param(userId)}
+            RETURNING *;
+        `.run(pool);
+        }
         if (updatedData.badges!=null) {
             updatedUsers = await db.sql<s.users.SQL, s.users.Selectable[]>`
             UPDATE ${"users"}
             SET ${"badges"} = ${db.param(updatedData.badges)}
+            WHERE ${"id"} = ${db.param(userId)}
+            RETURNING *;
+        `.run(pool);
+        }
+        if (updatedData.creatures!=null) {
+            updatedUsers = await db.sql<s.users.SQL, s.users.Selectable[]>`
+            UPDATE ${"users"}
+            SET ${"creatures"} = ${db.param(updatedData.creatures)}
             WHERE ${"id"} = ${db.param(userId)}
             RETURNING *;
         `.run(pool);
@@ -119,4 +135,114 @@ export const updateUser = async (
         console.error(error);
         reply.code(500).send({ error: 'Internal Server Error' });
     }
+};
+
+export const buyCreature = async (
+  request: FastifyRequest<{ Params: { userId: number; creatureId: number } }>,
+  reply: FastifyReply
+) => {
+  const userId = request.params.userId;
+  const creatureId = request.params.creatureId;
+  console.log(userId, creatureId)
+
+  try {
+    // Récupérer l'utilisateur et la créature
+    const user = await db.sql<s.users.SQL, s.users.Selectable[]>`
+      SELECT * FROM ${'users'}
+      WHERE ${'id'} = ${db.param(userId)}
+    `.run(pool);
+
+    const creature = await db.sql<s.creatures.SQL, s.creatures.Selectable[]>`
+      SELECT * FROM ${'creatures'}
+      WHERE ${'id'} = ${db.param(creatureId)}
+    `.run(pool);
+
+    // Vérifier si l'utilisateur et la créature existent
+    if (user.length === 0) {
+      reply.code(404).send({ error: 'Utilisateur introuvable' });
+      return;
+    }
+    if (creature.length === 0) {
+      reply.code(404).send({ error: 'créature introuvable' });
+      return;
+    }
+
+    const userRecord = user[0];
+    const creatureRecord = creature[0];
+
+    // Vérifier si l'utilisateur a un solde suffisant pour acheter la créature
+    if (userRecord.balance < creatureRecord.price) {
+      reply.code(400).send({ error: 'Solde insuffisant pour acheter la créature' });
+      return;
+    }
+
+    // Déduire le prix de la créature du solde de l'utilisateur
+    const updatedUser = await db.sql<s.users.SQL, s.users.Selectable[]>`
+      UPDATE ${'users'}
+      SET ${'balance'} = ${db.param(userRecord.balance - creatureRecord.price)}
+      WHERE ${'id'} = ${db.param(userId)}
+      RETURNING *;
+    `.run(pool);
+
+    // Ajouter la créature à l'inventaire de l'utilisateur
+      if (userRecord.creatures != null) {
+    await db.sql<s.users.SQL, s.users.Selectable[]>`
+      UPDATE ${'users'}
+      SET ${'creatures'} = ${db.param(userRecord.creatures + ',' + creatureRecord.id)}
+      WHERE ${'id'} = ${db.param(userId)}
+      RETURNING *;
+    `.run(pool); }
+      else {
+          await db.sql<s.users.SQL, s.users.Selectable[]>`
+      UPDATE ${'users'}
+      SET ${'creatures'} = ${db.param(creatureRecord.id)}
+      WHERE ${'id'} = ${db.param(userId)}
+      RETURNING *;
+    `.run(pool);
+      }
+
+
+    reply.send({ data: { user: updatedUser[0], creature: creatureRecord } });
+  } catch (error) {
+    console.error(error);
+    reply.code(500).send({ error: 'Erreur interne du serveur' });
+  }
+};
+
+export const getCreatures = async (
+  request: FastifyRequest<{ Params: { id: number } }>,
+  reply: FastifyReply
+) => {
+  const userId = request.params.id;
+
+  try {
+    const user = await db.sql<s.users.SQL, s.users.Selectable[]>`
+      SELECT * FROM ${'users'}
+      WHERE id = ${db.param(userId)}
+    `.run(pool);
+
+    if (user.length === 0) {
+      reply.code(404).send({ error: 'User not found' });
+    } else {
+      const userRecord = user[0];
+
+      if (userRecord.creatures) {
+        // Remove curly braces and quotes from the string
+        const creatureIdsString = userRecord.creatures.replace(/[{}"]/g, '');
+        const creatureIds = creatureIdsString.split(',');
+
+        const creatures = await db.sql<s.creatures.SQL, s.creatures.Selectable[]>`
+          SELECT * FROM ${'creatures'}
+          WHERE id = ANY(${db.param(creatureIds)})
+        `.run(pool);
+
+        reply.send({ data: creatures });
+      } else {
+        reply.send({ data: [] });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    reply.code(500).send({ error: 'Internal Server Error' });
+  }
 };

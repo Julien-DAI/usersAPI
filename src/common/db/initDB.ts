@@ -5,10 +5,15 @@ export const initDB = async () => {
     db.sql`
     DROP TABLE matchs;
     DROP TABLE rounds;
+    DROP TABLE users;
+    DROP TABLE creatures;
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         name	TEXT NOT NULL UNIQUE,
-        password   TEXT NOT NULL
+        password   TEXT NOT NULL,
+        balance INTEGER,
+        role TEXT NOT NULL,
+        badges INTEGER                    
       );
     CREATE TABLE IF NOT EXISTS matchs (
         id SERIAL PRIMARY KEY,
@@ -27,11 +32,11 @@ export const initDB = async () => {
         status INTEGER NOT NULL
     );
     CREATE TABLE IF NOT EXISTS creatures (
-                                             id SERIAL PRIMARY KEY,
-                                             name TEXT NOT NULL UNIQUE,
-                                             price INTEGER NOT NULL,
-                                             hp INTEGER NOT NULL,
-                                             atk INTEGER NOT NULL
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL UNIQUE,
+        price INTEGER NOT NULL,
+        hp INTEGER NOT NULL,
+        atk INTEGER NOT NULL
     )
       `.run(pool)
 }

@@ -16,6 +16,12 @@ async function userRouter(fastify: FastifyInstance) {
     });
 
     fastify.route({
+        method: 'GET',
+        url: '/creatures/:id',
+        handler: controllers.getCreatures,
+    });
+
+    fastify.route({
         method: 'POST',
         url: '/users',
         handler: controllers.addUser,
@@ -25,6 +31,12 @@ async function userRouter(fastify: FastifyInstance) {
         method: 'PUT',
         url: '/:id',
         handler: controllers.updateUser,
+    });
+
+    fastify.route({
+        method: 'POST',
+        url: '/buy/:userId/:creatureId',
+        handler: controllers.buyCreature,
     });
 
 }

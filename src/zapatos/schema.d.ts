@@ -1055,13 +1055,25 @@ declare module 'zapatos/schema' {
       id: number;
       /**
       * **users.name**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       name: string;
       /**
+      * **users.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      password: string;
+      /**
+      * **users.balance**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      balance: number | null;
+      /**
       * **users.role**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       role: string;
@@ -1072,11 +1084,11 @@ declare module 'zapatos/schema' {
       */
       badges: number | null;
       /**
-      * **users.password**
-      * - `varchar` in database
+      * **users.creatures**
+      * - `text` in database
       * - Nullable, no default
       */
-      password: string | null;
+      creatures: string | null;
     }
     export interface JSONSelectable {
       /**
@@ -1087,13 +1099,25 @@ declare module 'zapatos/schema' {
       id: number;
       /**
       * **users.name**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       name: string;
       /**
+      * **users.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      password: string;
+      /**
+      * **users.balance**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      balance: number | null;
+      /**
       * **users.role**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       role: string;
@@ -1104,11 +1128,11 @@ declare module 'zapatos/schema' {
       */
       badges: number | null;
       /**
-      * **users.password**
-      * - `varchar` in database
+      * **users.creatures**
+      * - `text` in database
       * - Nullable, no default
       */
-      password: string | null;
+      creatures: string | null;
     }
     export interface Whereable {
       /**
@@ -1119,13 +1143,25 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **users.name**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **users.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      password?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **users.balance**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      balance?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **users.role**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       role?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
@@ -1136,11 +1172,11 @@ declare module 'zapatos/schema' {
       */
       badges?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
-      * **users.password**
-      * - `varchar` in database
+      * **users.creatures**
+      * - `text` in database
       * - Nullable, no default
       */
-      password?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      creatures?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
     }
     export interface Insertable {
       /**
@@ -1151,13 +1187,25 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
       /**
       * **users.name**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       name: string | db.Parameter<string> | db.SQLFragment;
       /**
+      * **users.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      password: string | db.Parameter<string> | db.SQLFragment;
+      /**
+      * **users.balance**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      balance?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+      /**
       * **users.role**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       role: string | db.Parameter<string> | db.SQLFragment;
@@ -1168,11 +1216,11 @@ declare module 'zapatos/schema' {
       */
       badges?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
       /**
-      * **users.password**
-      * - `varchar` in database
+      * **users.creatures**
+      * - `text` in database
       * - Nullable, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+      creatures?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
     }
     export interface Updatable {
       /**
@@ -1183,13 +1231,25 @@ declare module 'zapatos/schema' {
       id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
       /**
       * **users.name**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       /**
+      * **users.password**
+      * - `text` in database
+      * - `NOT NULL`, no default
+      */
+      password?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      /**
+      * **users.balance**
+      * - `int4` in database
+      * - Nullable, no default
+      */
+      balance?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
+      /**
       * **users.role**
-      * - `varchar` in database
+      * - `text` in database
       * - `NOT NULL`, no default
       */
       role?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
@@ -1200,13 +1260,13 @@ declare module 'zapatos/schema' {
       */
       badges?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
       /**
-      * **users.password**
-      * - `varchar` in database
+      * **users.creatures**
+      * - `text` in database
       * - Nullable, no default
       */
-      password?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+      creatures?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
     }
-    export type UniqueIndex = 'users_pkey';
+    export type UniqueIndex = 'users_name_key' | 'users_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;

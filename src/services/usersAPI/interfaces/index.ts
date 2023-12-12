@@ -4,6 +4,8 @@ interface Player {
     role: 'player';
     badges: number;
     password: string;
+    balance: number;
+    creatures: string;
 }
 
 interface Reporter {
