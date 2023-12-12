@@ -13,7 +13,7 @@ const startServer = async () => {
             server.log.error(error, address);
         }
 
-
+        server.register(creaturesRouter, { prefix: '/api/creature' })
 
         await server.listen({ port }, errorHandler)
     } catch (e) {
