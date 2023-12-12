@@ -1,8 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify"
-import { ExtendedUser, UserRole, IUser } from "../interfaces"
+import { ExtendedUser, UserRole } from "../interfaces"
 import type * as s from 'zapatos/schema'
 import * as db from 'zapatos/db'
 import pool from '../../../common/db/pgPool'
+import * as console from "console";
 
 export const listUsers =
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -37,6 +38,7 @@ export const getUserById = async (
 };
 
 export const addUser = async (
+
     request: FastifyRequest<{ Body: Omit<ExtendedUser, 'id'> }>,
     reply: FastifyReply
 ) => {

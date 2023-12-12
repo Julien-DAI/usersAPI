@@ -7,7 +7,13 @@ async function roundRouter(fastify: FastifyInstance) {
         method: 'GET',
         url: '/rounds',
         handler: controllers.listRounds,
-    })
+    });
+
+    fastify.route({
+        method: 'POST',
+        url: '/rounds',
+        handler: controllers.addRound,
+    });
 }
 
 export default roundRouter

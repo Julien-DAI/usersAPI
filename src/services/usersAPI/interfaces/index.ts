@@ -24,12 +24,4 @@ interface Admin {
 
 export type UserRole = 'player' | 'reporter' | 'admin';
 
-export interface IUser {
-    id: number;
-    name: string;
-    role: UserRole;
-    badges?: number; // Badges are optional for non-players
-
-}
-
 export type ExtendedUser = Player | Reporter | Admin;

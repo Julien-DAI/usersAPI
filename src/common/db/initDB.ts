@@ -3,6 +3,8 @@ import pool from './pgPool'
 
 export const initDB = async () => {
     db.sql`
+    DROP TABLE matchs;
+    DROP TABLE rounds;
     CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         name	TEXT NOT NULL UNIQUE,
@@ -13,7 +15,7 @@ export const initDB = async () => {
         player1_id INTEGER,
         player2_id INTEGER,
         winner INTEGER,
-        status BOOLEAN NOT NULL
+        status INTEGER NOT NULL
     );
     CREATE TABLE IF NOT EXISTS rounds (
         id SERIAL PRIMARY KEY,
@@ -22,7 +24,7 @@ export const initDB = async () => {
         creature2_id INTEGER,
         creature_winner INTEGER,
         round_number INTEGER NOT NULL,
-        status BOOLEAN NOT NULL
+        status INTEGER NOT NULL
     );
     CREATE TABLE IF NOT EXISTS creatures (
                                              id SERIAL PRIMARY KEY,
