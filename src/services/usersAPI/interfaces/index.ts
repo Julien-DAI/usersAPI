@@ -1,5 +1,7 @@
 export interface IUser {
     id: number
     name: string
-    score?: number
+    role: number
+    badges?: any
+    password: string
 }

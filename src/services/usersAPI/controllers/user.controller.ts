@@ -3,12 +3,13 @@ import { IUser } from "../interfaces"
 import type * as s from 'zapatos/schema'
 import * as db from 'zapatos/db'
 import pool from '../../../common/db/pgPool'
+import * as console from "console";
 
 export const listUsers =
     async (request: FastifyRequest, reply: FastifyReply) => {
-/*        return db.sql<s.users.SQL, s.users.Selectable[]>`SELECT * FROM ${"users"}`
+        return db.sql<s.users.SQL, s.users.Selectable[]>`SELECT * FROM ${"users"}`
             .run(pool)
-            .then((users) => ({ data: users }))*/
+            .then((users) => ({ data: users }))
         // Or .then((users) => reply.send({ data: users }))
     }
 
@@ -37,22 +38,25 @@ export const getUserById = async (
 };
 
 export const addUser = async (
-    request: FastifyRequest<{ Body: Pick<s.users.Insertable, 'name' | 'password'> }>,
+    request: FastifyRequest<{ Body: Pick<s.users.Insertable, 'name' | 'password' | 'role'| 'badges'> }>,
     reply: FastifyReply
 ) => {
-    /*const { name, password } = request.body;
-
+    console.log("request.body", request.body);
+    console.log("typeof request.body", typeof request.body);
+    const { name, password, role, badges } = request.body;
     try {
         const newUser = await db.insert('users', {
             name,
             password,
+            role,
+            badges,
         }).run(pool);
 
         reply.send({ data: newUser });
     } catch (error) {
         console.error(error);
         reply.code(500).send({ error: 'Internal Server Error' });
-    }*/
+    }
 };
 
 export const updateUser = async (
