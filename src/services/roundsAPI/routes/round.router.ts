@@ -14,6 +14,11 @@ async function roundRouter(fastify: FastifyInstance) {
         url: '/rounds',
         handler: controllers.addRound,
     });
+    fastify.route({
+        method: 'PUT',
+        url: '/:id',
+        handler: controllers.updateRound,
+    });
 }
 
 export default roundRouter

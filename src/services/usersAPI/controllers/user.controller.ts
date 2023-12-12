@@ -143,7 +143,6 @@ export const buyCreature = async (
 ) => {
   const userId = request.params.userId;
   const creatureId = request.params.creatureId;
-  console.log(userId, creatureId)
 
   try {
     // Récupérer l'utilisateur et la créature

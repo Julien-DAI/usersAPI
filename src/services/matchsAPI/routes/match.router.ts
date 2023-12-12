@@ -14,6 +14,11 @@ async function matchRouter(fastify: FastifyInstance) {
         url: '/matchs',
         handler: controllers.addMatch,
     });
+    fastify.route({
+        method: 'PUT',
+        url: '/:id',
+        handler: controllers.updateMatch,
+    });
 }
 
 export default matchRouter
