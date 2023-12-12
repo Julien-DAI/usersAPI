@@ -1,0 +1,321 @@
+---
+openapi: 3.0.0
+info:
+  title: Pocket Creatures
+  description: The APIs for the Pocket Creatures project
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/SAMUELFROSSARD79/POCKET_CREATURES/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://github.com/Julien-DAI/usersAP
+  description: Pocket Creature API
+paths:
+  /api/user/users:
+    get:
+      tags:
+      - Users
+      description: returns all registered users
+      operationId: listUsers
+      responses:
+        "200":
+          description: All the registered users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+      - Users
+      operationId: addUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: user successfully added
+  /api/user/{id}:
+    get:
+      tags:
+      - Users
+      description: returns user by id
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: The user by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+      - Users
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "200":
+          description: user updated
+  /api/user/creatures/{id}:
+    get:
+      tags:
+      - Users
+      description: returns the creatures owned by the user
+      operationId: getCreaturesByUserId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: The user by id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Creature'
+  /api/user//buy/{userId}/{creatureId}:
+    post:
+      tags:
+      - Users
+      operationId: buyCreature
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      - name: creatureId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: creature bought successfully
+  /api/match/matchs:
+    get:
+      tags:
+      - Matchs
+      description: returns all matches
+      operationId: listMatchs
+      responses:
+        "200":
+          description: All the matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+    post:
+      tags:
+      - Matchs
+      operationId: addMatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        "200":
+          description: match successfully added
+  /api/match/{id}:
+    put:
+      tags:
+      - Matchs
+      operationId: updateMatch
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        "200":
+          description: match updated
+  /api/round/rounds:
+    get:
+      tags:
+      - Rounds
+      description: returns all rounds
+      operationId: listRounds
+      responses:
+        "200":
+          description: All the rounds
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Round'
+    post:
+      tags:
+      - Rounds
+      operationId: addRound
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Round'
+      responses:
+        "200":
+          description: round successfully added
+  /api/round/{id}:
+    put:
+      tags:
+      - Rounds
+      operationId: updateRound
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Round'
+      responses:
+        "200":
+          description: round updated
+  /api/creature/creatures:
+    get:
+      tags:
+      - Creatures
+      description: returns all creatures
+      operationId: listCreatures
+      responses:
+        "200":
+          description: All the creatures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Creature'
+    post:
+      tags:
+      - Creatures
+      operationId: addCreature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Creature'
+      responses:
+        "200":
+          description: creature successfully added
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        password:
+          type: string
+        balance:
+          type: integer
+        role:
+          type: string
+        badges:
+          type: integer
+        creatures:
+          type: string
+          example: "22,1,3,4,63"
+      description: Utilisateur
+    Creature:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: integer
+        hp:
+          type: integer
+        atk:
+          type: integer
+      description: Créature
+    Match:
+      type: object
+      properties:
+        id:
+          type: integer
+        player1_id:
+          type: integer
+        player2_id:
+          type: integer
+        winner:
+          type: integer
+        status:
+          type: integer
+      description: Match
+    Round:
+      type: object
+      properties:
+        id:
+          type: integer
+        match_id:
+          type: integer
+        creature1_id:
+          type: integer
+        creature2_id:
+          type: integer
+        round_number:
+          type: integer
+        status:
+          type: integer
+      description: Round
